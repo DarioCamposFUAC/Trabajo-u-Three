@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World</title>
+    <script src="three.js"></script>
+
+</head>
+
+<body>
+<!--Canvas-Escenario de trabajo-->
+<canvas id="c"></canvas>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.js"></script>
+ <script src="http://www.jpereira.net/apps/threejs/js/three.min.js"></script>
+ <script src="http://www.jpereira.net/apps/threejs/js/TrackballControls.js"></script>
+ <script src="http://www.jpereira.net/apps/threejs/js/OBJLoader.js"></script>
+ <script src="http://www.jpereira.net/apps/threejs/js/Detector.js"></script>
+<script>
+ //Render WEBGL   
+var container, camera, scene, renderer;
+function init(){
+    container = document.createElement("canvas");
+    document.body.appendChild(container);
+    camera=new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,1,2000);
+    camera.position.z=5;
+
+ //picking generalizado   
+ /*   controls= new THREE,TrackballControls(camera);
+    controls.rotationspeed=5.0;
+    controls.zoomspeed=5;
+    controls.panspeed=5;*/
+
+    scene=new THREE.Scene();
+
+    //iluminacions
+    var ambiente=new THREE.AmbientLight(0xfffff);
+    scene.add(ambiente);
+
+    //cargar imagen
+    var texture=new THREE.Texture();
+    var loader=new THREE.ImageLoader();
+
+    loader.addEventListener('load',function(event)
+    {
+            texture.image=event.content;
+            texture.needsUpdate=true;
+            texture.magFilter=THREE.NearestFilter;
+            texture.minfilter=THREE.NearestMipMapLinearFilter;
+
+
+    });
+    loader.load("Globe.jpg");
+
+    var loader=new THREE.OBJLoader();
+         loader.addEventListener('load',function(event){
+             var object=event.content;
+             object.traverse( function ( child ) {
+						if ( child instanceof THREE.Mesh ) {
+							child.material.map = texture;
+						}
+
+         });
+
+        // object.scale= new THREE.Vector3(10,10,10);
+        console.log(object);
+         scene.add(object);
+
+  });
+
+  loader.load("Globe.obj");
+  renderer=new THREE.WebGLRenderer();
+  renderer.setSize(window.innerHeight,window.innerWidth);
+  container.appendChild(renderer.domElement);
+  renderer.render(scene, camera);
+}
+function animate(){
+
+    requestAnimationFrame(animate);
+    render();
+}
+
+function render (){
+
+    controls.update();
+    camera.LookAt(scene, )
+}
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
