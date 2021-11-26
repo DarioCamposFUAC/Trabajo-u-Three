@@ -1,0 +1,27 @@
+using UnityEngine;
+using System.Collections;
+
+public class MoveBall : MonoBehaviour {
+
+	private Rigibody rg;
+	public float speed;
+	public float jumpspeed;
+
+	void Start () {
+
+		rg = GetComponent<Rigibody> ();
+
+		}
+
+	void Update () {
+
+	if (imput.GetKey (KeyCode.Space)) {
+		Vector3 atas = new Vector3 (0, 20, 0);
+		rg.AddForce (atas *speed);
+
+		}
+
+		Vector3 gerak = new Vector3 (Imput.GetAxis ("Horizontal"), 0, Imput.GetAxis ("Vertical));
+		rg.AddForce (gerak * speed);
+
+}
